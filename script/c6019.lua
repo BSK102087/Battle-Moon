@@ -80,6 +80,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,dc)
 		if dc:IsType(TYPE_MONSTER) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and
 			Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPES_TOKEN,1000,1500,dc:GetLevel(),dc:GetRace(),dc:GetAttribute()) then
+			Duel.BreakEffect()
 			local token=Duel.CreateToken(tp,6039)
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP,zone)
 			local e6=Effect.CreateEffect(e:GetHandler())
