@@ -197,16 +197,16 @@ function s.colcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsType(TYPE_EFFECT)
 end	
 function s.coltarget(e,c)
-	return not c:IsAttribute (0x10) and not (e:GetHandler():GetColumnGroup():IsContains(c) or e:GetHandler()==c) and c:IsFaceup()
+	return not c:IsAttribute(0x10) and not (e:GetHandler():GetColumnGroup():IsContains(c) or e:GetHandler()==c) and c:IsFaceup()
 end
 function s.lumntarget(e,c)
-	return not c:IsAttribute (0x10) and (e:GetHandler():GetColumnGroup():IsContains(c) or e:GetHandler()==c) and c:IsFaceup()
+	return not c:IsAttribute(0x10) and (e:GetHandler():GetColumnGroup():IsContains(c) or e:GetHandler()==c) and c:IsFaceup()
 end
 function s.atklimit(e,c)
 	return c==e:GetHandler()
 end
 function s.target(e,c)
-	return not c:IsAttribute (0x10) and c:IsFaceup()
+	return not c:IsAttribute(0x10) and c:IsFaceup()
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
