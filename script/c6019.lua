@@ -81,6 +81,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
 	local dc=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil):GetFirst()
 		Duel.ConfirmCards(1-tp,dc)
+		Duel.ShuffleHand(tp)
 		if dc:IsType(TYPE_MONSTER) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPES_TOKEN,1000,1500,dc:GetLevel(),dc:GetRace(),dc:GetAttribute()) then
 			Duel.BreakEffect()
 			local token=Duel.CreateToken(tp,6039)
@@ -115,5 +116,4 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 				Duel.SendtoGrave(g,REASON_EFFECT)
 		end	
 	end
-		Duel.ShuffleHand(tp)
 end
