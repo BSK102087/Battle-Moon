@@ -69,7 +69,10 @@ function s.filter2(c)
 	return c:IsSetCard(0x1f4) and c:IsType(TYPE_PENDULUM)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil) 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPES_TOKEN,1000,1500,dc:GetLevel(),dc:GetRace(),dc:GetAttribute())
+		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil) 
+		and Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil) end
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -78,8 +81,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
 	local dc=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil):GetFirst()
 		Duel.ConfirmCards(1-tp,dc)
-		if dc:IsType(TYPE_MONSTER) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and
-			Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPES_TOKEN,1000,1500,dc:GetLevel(),dc:GetRace(),dc:GetAttribute()) then
+		if dc:IsType(TYPE_MONSTER) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then
 			Duel.BreakEffect()
 			local token=Duel.CreateToken(tp,6039)
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP,zone)
@@ -98,14 +100,14 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 			e8:SetValue(dc:GetAttribute())
 			token:RegisterEffect(e8)
 			Duel.SpecialSummonComplete()
-		elseif dc:IsType(TYPE_TRAP) and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil) then
+		elseif dc:IsType(TYPE_TRAP) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,1))
 			local g=Duel.SelectMatchingCard(tp,s.filter2,tp,LOCATION_DECK,0,1,1,nil)
 				if #g>0 then
 				Duel.SendtoExtraP(g,tp,REASON_EFFECT)
 			end	
-		elseif dc:IsType(TYPE_SPELL) and Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil) then
+		elseif dc:IsType(TYPE_SPELL) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 			local g=Duel.SelectMatchingCard(tp,s.filter1,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil)
