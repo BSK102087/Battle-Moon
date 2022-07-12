@@ -59,7 +59,9 @@ function s.sumlimit(e,c)
 	return not c:IsSetCard(0x1f4)
 end
 function s.filter(c)
-	return not c:IsPublic()
+	return not c:IsPublic() and Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPES_TOKEN,1000,1500,nil,nil,nil) 
+		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil) 
+		and Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil) end
 end
 function s.filter1(c)
 	return c:IsSetCard(0x1f4)
@@ -68,14 +70,12 @@ function s.filter2(c)
 	return c:IsSetCard(0x1f4) and c:IsType(TYPE_PENDULUM)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil) 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPES_TOKEN,1000,1500,nil,nil,nil)
-		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil) 
-		and Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil) end
+	if chk==0 then return Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0 
+		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_HAND,0,1,nil,e,tp,e:GetHandler():GetLinkedZone(tp)) 
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local zone=e:GetHandler():GetLinkedZone(tp)
+	local zone=c:GetLinkedZone(tp)
 	if zone==0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
 	local dc=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_HAND,0,1,1,nil):GetFirst()
