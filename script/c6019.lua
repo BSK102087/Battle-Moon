@@ -61,7 +61,7 @@ end
 function s.filter(c)
 	return not c:IsPublic() and Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPES_TOKEN,1000,1500,nil,nil,nil) 
 		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil) 
-		and Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil) end
+		and Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil)
 end
 function s.filter1(c)
 	return c:IsSetCard(0x1f4)
