@@ -58,7 +58,7 @@ end
 function s.sumlimit(e,c)
 	return not c:IsSetCard(0x1f4)
 end
-function s.filter(c)
+function s.filter(c,tp)
 	return not c:IsPublic() and Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPES_TOKEN,1000,1500,nil,nil,nil) 
 		and Duel.IsExistingMatchingCard(s.filter2,tp,LOCATION_DECK,0,1,nil) 
 		and Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil) 
