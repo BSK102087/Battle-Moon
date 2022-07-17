@@ -18,7 +18,7 @@ function s.initial_effect(c)
 end
 s.listed_card_types={TYPE_GEMINI}
 function s.fusfilter(c)
-	return c:IsCode(6027) or c:IsCode(6028) or c:IsCode(6029) or c:IsCode(64463828)
+	return c:IsCode(6027,6028,6029,64463828)
 end
 function s.exfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_PENDULUM)
