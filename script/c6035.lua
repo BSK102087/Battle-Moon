@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	--Activate in hand
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
-	e3:SetCode(EFFECT_TRAP_ACT_IN_DECK)
+	e3:SetCode(EFFECT_TRAP_ACT_IN_HAND)
 	e3:SetCondition(s.handcon)
 	c:RegisterEffect(e3)
 	--Coin Toss
