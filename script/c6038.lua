@@ -40,7 +40,8 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.NegateSummon(eg)
 	Duel.Remove(eg,POS_FACEDOWN,REASON_EFFECT)
-	if c:IsRelateToEffect(e) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x21,-2,-2,11,RACE_BEAST,ATTRIBUTE_DARK) then
+	if c:IsRelateToEffect(e) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and 
+		Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x21,-2,-2,11,RACE_BEAST,ATTRIBUTE_DARK) and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 		Duel.BreakEffect()
 		c:AddMonsterAttribute(TYPE_EFFECT)
 		Duel.SpecialSummonStep(c,0,tp,tp,true,false,POS_FACEUP)
