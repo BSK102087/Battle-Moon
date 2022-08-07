@@ -92,7 +92,7 @@ function s.rcop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPE_TOKEN+TYPE_MONSTER+TYPE_NORMAL,1000,1500,tc:GetLevel(),tc:GetRace(),tc:GetAttribute()) and Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0 then
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPE_TOKEN+TYPE_MONSTER+TYPE_NORMAL,1000,1500,tc:GetLevel(),tc:GetRace(),tc:GetAttribute()) and Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0 then
 		local token=Duel.CreateToken(tp,6039)
 		local e6=Effect.CreateEffect(e:GetHandler())
 		e6:SetType(EFFECT_TYPE_SINGLE)
