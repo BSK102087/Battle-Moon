@@ -106,8 +106,8 @@ function s.copyop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.cfilter(c,ft,tp)
-	return c:IsType(TYPE_NORMAL+TYPE_GEMINI) and c:IsControler(tp)
-		and (ft>0 or c:GetSequence()<5)
+	return c:IsType(TYPE_NORMAL+TYPE_GEMINI) and ft>0 or 
+		(c:IsControler(tp) and c:GetSequence()<5)
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
