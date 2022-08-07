@@ -57,8 +57,11 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.ShuffleDeck(tp)
 end
+function s.rtfilter(c)
+	return c:IsAbleToDeck() and not c:IsType(TYPE_TOKEN)
+end
 function s.rdtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,e:GetHandler()) 
+	if chk==0 then return Duel.IsExistingMatchingCard(s.rtfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,e:GetHandler()) 
 		and Duel.IsPlayerCanDraw(tp,1) end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(1)	
@@ -69,7 +72,7 @@ function s.rdop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,e:GetHandler())
+	local g=Duel.SelectMatchingCard(tp,s.rtfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,e:GetHandler())
 	if #g>0 and Duel.SendtoDeck(g,nil,1,REASON_EFFECT)~=0 then
 		Duel.Draw(p,d,REASON_EFFECT)
 	end
