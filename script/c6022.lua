@@ -105,14 +105,14 @@ function s.copyop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
-function s.cfilter(c,ft,tp)
+function s.cfilter(c,tp)
 	return c:IsType(TYPE_NORMAL+TYPE_GEMINI) and (c:IsControler(tp) or c:IsFaceup())
 		and (c:IsInMainMZone(tp) or Duel.GetLocationCount(tp,LOCATION_MZONE)>0)
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,s.cfilter,1,true,nil,nil,tp) end
-	local g=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,1,true,nil,nil,tp)
-	Duel.Release(g,REASON_COST)
+	local sg=Duel.SelectReleaseGroupCost(tp,s.cfilter,1,1,true,nil,nil,tp)
+	Duel.Release(sg,REASON_COST)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
