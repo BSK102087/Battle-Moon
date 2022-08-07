@@ -106,7 +106,7 @@ function s.copyop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.cfilter(c,ft,tp)
-	return c:IsType(TYPE_NORMAL+TYPE_GEMINI) and ft>0 or 
+	return c:IsType(TYPE_NORMAL+TYPE_GEMINI) and ft>0 and 
 		(c:IsControler(tp) and c:GetSequence()<5)
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
