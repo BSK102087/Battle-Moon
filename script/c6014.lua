@@ -231,8 +231,11 @@ end
 function s.exfilter(c)
 	return c:IsSetCard(0x1f4) and c:IsFaceup() and c:IsType(TYPE_PENDULUM) and c:IsAbleToHand()
 end
+function s.rtfilter(c)
+	return c:IsAbleToDeck() and not c:IsType(TYPE_TOKEN)
+end
 function s.extg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,e:GetHandler()) and 
+	if chk==0 then return Duel.IsExistingMatchingCard(s.rtfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,e:GetHandler()) and 
 		Duel.IsExistingMatchingCard(s.exfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,1,tp,LOCATION_HAND+LOCATION_ONFIELD)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_EXTRA)
@@ -240,7 +243,7 @@ end
 function s.exop(e,tp,eg,ep,ev,re,r,rp)
 	local bg=Duel.GetMatchingGroup(s.exfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,e:GetHandler())
+	local g=Duel.SelectMatchingCard(tp,s.rtfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,e:GetHandler())
 	if #g>0 and Duel.SendtoDeck(g,nil,0,REASON_EFFECT)~=0 and bg:GetCount()>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local sg=bg:Select(tp,1,1,nil)
