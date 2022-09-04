@@ -73,11 +73,10 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.stfilter(c,e,sp)
-	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsCode(6030,6031,6032,6033,6034,6035,6036,6037,6038) and c:IsSSetable()
+	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and c:IsCode(6030,6031,6032,6033,6034,6035,6036,6037,6038) and c:IsSSetable()
 end
 function s.sttg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
-		and Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil) end
 end
 function s.stop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
