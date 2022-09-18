@@ -1,7 +1,7 @@
 --Full Moon Hunter
 local s,id=GetID()
-function s.initial_effect(c,false)
-	Pendulum.AddProcedure(c)
+function s.initial_effect(c)
+	Pendulum.AddProcedure(c,false)
 	--Fusion Material
 	Fusion.AddProcMix(c,true,true,s.mfilter1,s.mfilter2)
 	c:EnableReviveLimit()
