@@ -1,7 +1,7 @@
 --Full Moon Harvester
 local s,id=GetID()
 function s.initial_effect(c)
-	Pendulum.AddProcedure(c)
+	Pendulum.AddProcedure(c,false)
 	--Synchro Summon
 	Synchro.AddProcedure(c,nil,1,1,Synchro.NonTunerEx(Card.IsType,TYPE_GEMINI+TYPE_NORMAL),1,99)
 	c:EnableReviveLimit()
