@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	Pendulum.AddProcedure(c)
-	aux.EnableGeminiAttribute(c)
+	Gemini.AddProcedure(c)
 	--Special Summon (Pendulum Zone)
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,1))
