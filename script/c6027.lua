@@ -1,17 +1,17 @@
 --Full Moon Hunter
 local s,id=GetID()
-function s.initial_effect(c)
+function s.initial_effect(c,false)
 	Pendulum.AddProcedure(c)
 	--Fusion Material
 	Fusion.AddProcMix(c,true,true,s.mfilter1,s.mfilter2)
 	c:EnableReviveLimit()
-	--special summon
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_SINGLE)
 	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e0:SetCode(EFFECT_SPSUMMON_CONDITION)
 	e0:SetValue(s.splimit)
 	c:RegisterEffect(e0)
+	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
@@ -102,10 +102,10 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e3:SetTargetRange(1,0)
 	e3:SetReset(RESET_PHASE+PHASE_END)
-	e3:SetTarget(s.splimit)
+	e3:SetTarget(s.spnlimit)
 	Duel.RegisterEffect(e3,tp)
 end
-function s.splimit(e,c,sump,sumtype,sumpos,targetp,se)
+function s.spnlimit(e,c,sump,sumtype,sumpos,targetp,se)
 	return c:IsCode(id) and sumtype&SUMMON_TYPE_SPECIAL==SUMMON_TYPE_SPECIAL
 end
 function s.atkcon(e)
