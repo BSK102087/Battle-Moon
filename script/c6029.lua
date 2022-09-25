@@ -87,7 +87,7 @@ function s.eqtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,nil,1,tp,LOCATION_DECK)
 end
 function s.equipop(c,e,tp,tc)
-	if not aux.EquipByEffectAndLimitRegister(c,e,tp,tc,id,true) then return end
+	if not c:EquipByEffectAndLimitRegister(e,tp,tc,id,true) then return end
 	local lv=tc:GetLevel()
 	local atk=tc:GetTextAttack()
 	local def=tc:GetTextDefense()
