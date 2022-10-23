@@ -81,7 +81,7 @@ function s.bcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:GetReasonPlayer()~=tp and c:IsReason(REASON_EFFECT)
 end
 function s.bfilter(c)
-	return c:IsAbleToDeck() and (c:IsLocation(LOCATION_SZONE) or aux.SpElimFilter(c,false,true))
+	return c:IsAbleToDeck() 
 end
 function s.btg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(s.bfilter,tp,0,LOCATION_ONFIELD+LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED,nil)
