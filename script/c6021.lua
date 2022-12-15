@@ -72,12 +72,14 @@ function s.stop(e,tp,eg,ep,ev,re,r,rp)
     end
 end
 function s.dietg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsPlayerCanDraw(tp,1,6) end
-	Duel.SetOperationInfo(0,CATEGORY_DICE,nil,0,tp,3)
+	if chk==0 then return Duel.IsPlayerCanDraw(tp,1,6) and Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,LOCATION_ONFIELD+LOCATION_HAND,0,6,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_DICE,nil,0,tp,1)
+	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,0,tp,1)
 end
 function s.dieop(e,tp,eg,ep,ev,re,r,rp)
 	local dice=Duel.TossDice(tp,1)
-	if Duel.Draw(tp,dice,REASON_EFFECT)>0 then
+	if Duel.Draw(tp,dice,REASON_EFFECT) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 		local g=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,LOCATION_HAND+LOCATION_ONFIELD,0,dice,dice,nil)
