@@ -78,6 +78,7 @@ end
 function s.dieop(e,tp,eg,ep,ev,re,r,rp)
 	local dice=Duel.TossDice(tp,1)
 	if Duel.Draw(tp,dice,REASON_EFFECT)>0 then
+		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
 		local g=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,LOCATION_HAND+LOCATION_ONFIELD,0,dice,dice,nil)
 		Duel.SendtoDeck(g,nil,2,REASON_EFFECT)
