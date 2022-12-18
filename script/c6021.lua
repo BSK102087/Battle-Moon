@@ -72,7 +72,7 @@ function s.stop(e,tp,eg,ep,ev,re,r,rp)
     end
 end
 function s.dietg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsPlayerCanDraw(tp,1,6) and Duel.IsExistingMatchingCard(Card.IsAbleToDeck,tp,LOCATION_ONFIELD+LOCATION_HAND,0,6,nil) end
+	if chk==0 then return Duel.IsPlayerCanDraw(tp,1,6) end
 	Duel.SetOperationInfo(0,CATEGORY_DICE,nil,0,tp,1)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,0,tp,1)
