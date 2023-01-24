@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_SET_PROC)
 	c:RegisterEffect(e2)
-	--Summon with Pendulum Cards
+	--Tribute Summon using Pendulum Cards
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
