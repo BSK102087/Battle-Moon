@@ -76,7 +76,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		bcatt=bcatt*2
 	end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATTRIBUTE)
-	bcatt=Duel.AnnounceAttribute(tp,1,batt)
+	bcatt=Duel.AnnounceAnotherAttribute(tp,1,batt)
 	e:SetLabel(bcrac)
 	Duel.SetTargetParam(bcatt)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
