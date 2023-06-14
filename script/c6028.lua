@@ -103,7 +103,7 @@ function s.bdrcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.bdrtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local bc=e:GetHandler():GetBattleTarget()
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	if chk==0 then return (Duel.GetLocationCount(tp,LOCATION_MZONE)>0 or Duel.GetLocationCountFromEx(tp)>0)
 		and bc:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) end
 	Duel.SetTargetCard(bc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,bc,1,0,0)
