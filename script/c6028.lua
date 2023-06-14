@@ -29,17 +29,19 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 	--Special Summon
 	local e4=Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_REMOVE+CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e4:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY+EFFECT_FLAG_CANNOT_INACTIVATE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
-    e4:SetCondition(s.spcon)
-    e4:SetOperation(s.spop)
-    c:RegisterEffect(e4)
-    --Battle Damage Immunity
-	local e6=Effect.CreateEffect(c)
-	e6:SetType(EFFECT_TYPE_SINGLE)
-	e6:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+	e4:SetDescription(aux.Stringid(id,2))
+	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetCode(EVENT_BATTLE_DESTROYING)
+	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e4:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CANNOT_INACTIVATE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
+	e4:SetCondition(s.bdrcon)
+	e4:SetTarget(s.bdrtg)
+	e4:SetOperation(s.bdrop)
+	c:RegisterEffect(e4)
+    	--Battle Damage Immunity
+	local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_SINGLE)
+	e5:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
 	e6:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
 	e6:SetValue(1)
 	c:RegisterEffect(e6)
@@ -94,26 +96,33 @@ function s.bop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoDeck(g,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)
 	end
 end
-function s.spcon(e)
-	return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION)
+function s.bdrcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local bc=c:GetBattleTarget()
+	return c:IsRelateToBattle() and c:IsStatus(STATUS_OPPO_BATTLE) and bc:IsMonster()
 end
-function s.spop(e,tp,eg,ep,ev,re,r,rp)
-	local e5=Effect.CreateEffect(e:GetHandler())
-	e5:SetDescription(aux.Stringid(id,2))
-	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e5:SetCode(EVENT_PHASE+PHASE_BATTLE_START)
-	e5:SetReset(RESET_PHASE+PHASE_BATTLE_START)
-	e5:SetCountLimit(1)
-	e5:SetOperation(s.spop1)
-	Duel.RegisterEffect(e5,tp)
+function s.bdrtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local bc=e:GetHandler():GetBattleTarget()
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and bc:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP) end
+	Duel.SetTargetCard(bc)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,bc,1,0,0)
 end
-function s.filter(c,e,tp)
-	return c:IsSetCard(0x1f4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-end
-function s.spop1(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
-	if #g>0 then
-		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
-	end
+function s.bdrop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+		if Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+		local e3=Effect.CreateEffect(c)
+		e3:SetType(EFFECT_TYPE_SINGLE)
+		e3:SetCode(EFFECT_SET_ATTACK_FINAL)
+		e3:SetValue(3100)
+		e3:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(e3)
+		local e4=e3:Clone()
+		e4:SetCode(EFFECT_SET_DEFENSE_FINAL)
+		tc:RegisterEffect(e4)
+		end
+	end	
 end
