@@ -81,7 +81,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e13)	
 end
 function s.filter(c)
-	return c:IsCode(6030) and c:IsAbleToHand()
+	return c:IsCode(6030,6031) and c:IsAbleToHand()
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToDeck() end
