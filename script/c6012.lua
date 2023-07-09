@@ -109,7 +109,7 @@ function s.lpcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsType(TYPE_EFFECT) and not at:IsControler(tp) and not at:IsAttribute (0x02)
 end	
 function s.lpfilter(c,e,tp)
-	return not c:IsAttribute(0x02) and c:IsFaceup() and c:GetAttack() and c:IsCanTurnSet()
+	return not c:IsAttribute(0x02) and c:IsFaceup() and c:GetAttack()
 end
 function s.lptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.lpfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
@@ -119,7 +119,7 @@ function s.lpop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
 	local tc=Duel.SelectMatchingCard(tp,s.lpfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil):GetFirst()
 	local rec=tc:GetAttack() 
-	if rec>0 and Duel.Recover(tp,rec,REASON_EFFECT) then
+	if rec>0 and Duel.Recover(tp,rec,REASON_EFFECT) and tc:IsCanTurnSet() and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 		Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
 	end				
 end
