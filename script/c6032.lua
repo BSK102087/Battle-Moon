@@ -41,7 +41,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,s.remfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,1,nil)
 	if #g>0 and Duel.Remove(g,POS_FACEUP,REASON_EFFECT)>0 then 
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-		local g1=Duel.SelectMatchingCard(tp,aux.TRUE,tp,0,LOCATION_ONFIELD,1,1,nil)
+		local g1=Duel.SelectMatchingCard(tp,Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD,1,1,nil)
 		if Duel.Remove(g1,POS_FACEUP,REASON_EFFECT)>0 and Duel.IsPlayerCanDraw(tp,1) and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 			Duel.BreakEffect()
 			Duel.Draw(tp,1,REASON_EFFECT)
