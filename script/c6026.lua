@@ -95,10 +95,11 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local g1=Duel.GetMatchingGroup(aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,nil)
 	if #g>0 and #g1> 0 then if
 		Duel.SpecialSummon(g,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP) then
+		local tc=g:GetFirst()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
 		local g1=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,1,1,nil)
 		Duel.BreakEffect()
-		Duel.Overlay(g,g1)	
+		Duel.Overlay(tc,g1)	
 		end
 	end
 end
