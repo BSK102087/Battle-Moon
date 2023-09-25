@@ -90,15 +90,14 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	local c=e:GetHandler()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
-	local tc=g:GetFirst()
-	if tc and Duel.SpecialSummon(tc,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP) then
-		tc:CompleteProcedure()
-		Duel.BreakEffect()
+	local g1=Duel.GetMatchingGroup(aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,nil)
+	if #g>0 and #g1> 0 then if
+		Duel.SpecialSummon(g,SUMMON_TYPE_XYZ,tp,tp,false,false,POS_FACEUP) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
-		local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,1,1,nil)
-		Duel.Overlay(tc,g)	
+		local g1=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,1,1,nil)
+		Duel.BreakEffect()
+		Duel.Overlay(g,g1)	
 	end
 end
