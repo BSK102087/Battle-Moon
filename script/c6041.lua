@@ -126,5 +126,6 @@ function s.retop(e,tp,eg,ep,ev,re,r,rp)
 		if #g==0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
 		local g=Duel.SelectMatchingCard(tp,aux.TRUE,tp,LOCATION_REMOVED,0,1,1,nil)
-		
+		Duel.Overlay(tc,g)	
+	end
 end
