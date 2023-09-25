@@ -128,7 +128,7 @@ function s.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
-		local g=Duel.SelectMatchingCard(tp,nil,tp,LOCATION_GRAVE,0,1,1,nil)
+		local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,1,1,nil)
 		Duel.Overlay(c,g)	
 	end
 end
