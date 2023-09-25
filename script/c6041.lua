@@ -122,8 +122,9 @@ end
 function s.retop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if Duel.ReturnToField(tc) then
-		local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,nil)
+		local g=Duel.GetMatchingGroup(aux.TRUE),tp,LOCATION_REMOVED,0,nil)
 		if #g==0 then return end
-		
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
+		local g=Duel.SelectMatchingCard(tp,aux.TRUE,tp,LOCATION_REMOVED,0,1,1,nil)
 		
 end
