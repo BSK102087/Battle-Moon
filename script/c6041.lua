@@ -122,5 +122,8 @@ end
 function s.retop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if Duel.ReturnToField(tc) then
+		local g=Duel.GetMatchingGroup(aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,nil)
+		if #g==0 then return end
+		
 		
 end
