@@ -120,5 +120,7 @@ function s.discon(e,c)
 	end
 end
 function s.retop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.ReturnToField(e:GetLabelObject())
+	local tc=e:GetLabelObject()
+	if Duel.ReturnToField(tc) then
+		
 end
