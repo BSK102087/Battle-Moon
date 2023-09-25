@@ -99,5 +99,6 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		local g1=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(aux.TRUE),tp,LOCATION_GRAVE,0,1,1,nil)
 		Duel.BreakEffect()
 		Duel.Overlay(g,g1)	
+		end
 	end
 end
