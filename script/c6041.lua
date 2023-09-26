@@ -128,7 +128,7 @@ function s.retop(e,tp,eg,ep,ev,re,r,rp)
 		local g=Duel.GetMatchingGroup(s.ovfilter,tp,LOCATION_REMOVED,LOCATION_REMOVED,nil)
 		if #g==0 then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
-		local g=Duel.SelectMatchingCard(tp,s.ovfilter,tp,LOCATION_REMOVED,LOCATION_REMOVED,1,1,nil)
+		local g=Duel.SelectMatchingCard(tp,s.ovfilter,tp,LOCATION_REMOVED,LOCATION_REMOVED,1,1,c,tp,e)
 		Duel.Overlay(tc,g)	
 	end
 end
