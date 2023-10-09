@@ -44,6 +44,8 @@ function s.initial_effect(c)
 	e7:SetTarget(s.sp2tg)
 	e7:SetOperation(s.sp2op)
 	c:RegisterEffect(e7)	
+	if not AshBlossomTable then AshBlossomTable={} end
+	table.insert(AshBlossomTable,e7)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local e3=Effect.CreateEffect(e:GetHandler())
