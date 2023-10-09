@@ -2,6 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
+	--Special Summon (Battle Phase)
 	local e1=Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
@@ -10,6 +11,8 @@ function s.initial_effect(c)
     e1:SetCountLimit(1,id)
     e1:SetOperation(s.spop)
     c:RegisterEffect(e1)
+	if not AshBlossomTable then AshBlossomTable={} end
+	table.insert(AshBlossomTable,e1)
 	--Also every other Attribute
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
@@ -44,8 +47,6 @@ function s.initial_effect(c)
 	e7:SetTarget(s.sp2tg)
 	e7:SetOperation(s.sp2op)
 	c:RegisterEffect(e7)	
-	if not AshBlossomTable then AshBlossomTable={} end
-	table.insert(AshBlossomTable,e7)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local e3=Effect.CreateEffect(e:GetHandler())
