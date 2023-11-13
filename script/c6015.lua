@@ -109,11 +109,13 @@ function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsType(TYPE_EFFECT) and not att:IsControler(tp) and not att:IsAttribute(0x20)
 end	
 function s.ctfilter(c,e,tp)
-	return not c:IsAttribute(0x20) 
+	return not c:IsAttribute(0x20)
 end
 function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local at=Duel.GetAttacker()
-	if chk==0 then return Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,at,e,tp) end 
+	local bc=Duel.GetAttackTarget()
+	if chk==0 then return Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,at,e,tp) or 
+		Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,bc,e,tp) end 
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttacker()
