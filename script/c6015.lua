@@ -119,10 +119,11 @@ function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttacker()
+	local bc=Duel.GetAttackTarget()
 	local g=Duel.GetMatchingGroup(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,at)
 	if g:GetCount()>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
-		local tc=g:Select(tp,1,1,nil):GetFirst()
+		local tc=g:Select(tp,1,1,bc):GetFirst()
 		local at=Duel.GetAttacker()
 		if at:CanAttack() and not at:IsImmuneToEffect(e) and not tc:IsImmuneToEffect(e) then
 			Duel.CalculateDamage(at,tc)
