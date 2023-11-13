@@ -112,7 +112,9 @@ function s.ctfilter(c,e,tp)
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttacker()
-	local g=Duel.GetMatchingGroup(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,at)
+	local c=e:GetHandler()
+	local bg=Group.FromCards(at,c)
+	local g=Duel.GetMatchingGroup(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,bg)
 	if g:GetCount()>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
 		local tc=g:Select(tp,1,1,nil):GetFirst()
