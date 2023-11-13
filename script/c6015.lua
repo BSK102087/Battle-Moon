@@ -30,7 +30,8 @@ function s.initial_effect(c)
 	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e5:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetCondition(s.ctcon)	
+	e5:SetCondition(s.ctcon)
+	e5:SetTarget(s.cttg)
 	e5:SetOperation(s.ctop)
 	c:RegisterEffect(e5)
 	--Special Summon
@@ -109,6 +110,10 @@ function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
 end	
 function s.ctfilter(c,e,tp)
 	return not c:IsAttribute(0x20) 
+end
+function s.pttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	local at=Duel.GetAttacker()
+	if chk==0 then return Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,at,e,tp) end 
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttacker()
