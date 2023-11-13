@@ -111,7 +111,7 @@ end
 function s.ctfilter(c,e,tp)
 	return not c:IsAttribute(0x20) 
 end
-function s.pttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local at=Duel.GetAttacker()
 	if chk==0 then return Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,at,e,tp) end 
 end
