@@ -108,7 +108,7 @@ function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsType(TYPE_EFFECT) and not att:IsControler(tp) and not att:IsAttribute(0x20)
 end	
 function s.ctfilter(c,e,tp)
-	return not c:IsAttribute(0x20)  and not c:IsCode(6015)
+	return not c:IsAttribute(0x20) 
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttacker()
