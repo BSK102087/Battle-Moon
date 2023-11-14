@@ -120,6 +120,8 @@ end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttacker()
 	local bc=Duel.GetAttackTarget()
+	if not Duel.IsExistingMatchingCard(s.ctfilter,tp,0,LOCATION_MZONE,1,at,e,tp) or 
+		Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,0,1,bc,e,tp) then return end
 	local g=Duel.GetMatchingGroup(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,at)
 	if g:GetCount()>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
