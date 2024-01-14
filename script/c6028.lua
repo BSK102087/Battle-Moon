@@ -135,7 +135,6 @@ function s.bdrop(e,tp,eg,ep,ev,re,r,rp)
 		--Cannot be Destroyed
 		local e12=e11:Clone()
 		e12:SetDescription(3001)
-		e12:SetProperty(EFFECT_FLAG_CLIENT_HINT)
 		e12:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 		tc:RegisterEffect(e12)
 		--Cannot be Banished
