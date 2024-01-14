@@ -74,7 +74,7 @@ function s.spop1(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.atkfilter(c)
-	return c:IsFaceup and c:GetAttack()>0 or c:GetDefense()>0
+	return c:IsFaceup() and c:GetAttack()>0 or c:GetDefense()>0
 end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()
