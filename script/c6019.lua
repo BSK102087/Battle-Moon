@@ -26,7 +26,7 @@ function s.cfilter(c,e,tp,ft,zone)
 	local lv=c:GetLevel()
 	return lv>0 and ft>0 
 		and Duel.IsPlayerCanSpecialSummonMonster(tp,6039,0,TYPE_TOKEN+TYPE_MONSTER+TYPE_NORMAL,1000,1500,lv,c:GetRace(),c:GetAttribute()) 
-		and Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0
+		and Duel.GetMZoneCount(tp,nil,tp,LOCATION_REASON_TOFIELD,zone)>0 and not c:IsPublic()
 end
 function s.rctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft, zone = Duel.GetLocationCount(tp,LOCATION_MZONE), e:GetHandler():GetLinkedZone()&0x1f
