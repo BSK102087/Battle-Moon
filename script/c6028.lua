@@ -138,7 +138,7 @@ function s.bdrop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e12)
 		--Cannot be Banished
 		local e13=Effect.CreateEffect(c)
-		e13:SetDescription(aux.Stringid(id,3))
+		e13:SetDescription(aux.Stringid(id,4))
 		e13:SetType(EFFECT_TYPE_SINGLE)
 		e13:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 		e13:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
