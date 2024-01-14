@@ -31,6 +31,7 @@ function s.initial_effect(c)
 	e4:SetHintTiming(TIMING_DAMAGE_STEP)
 	e4:SetCountLimit(1,{id,1})
 	e4:SetCondition(s.atkcon)
+	e4:SetCost(s.akkcost)
 	e4:SetTarget(s.atktg)
 	e4:SetOperation(s.atkop)
 	c:RegisterEffect(e4)
@@ -75,6 +76,10 @@ end
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()
 end
+function s.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsReleasable() end
+	Duel.Release(e:GetHandler(),REASON_COST)
+end
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end
 	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
@@ -100,7 +105,7 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.sp2con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsSummonType(SUMMON_TYPE_RITUAL) and c:IsReason(REASON_EFFECT) and c:GetReasonPlayer()~=tp
+	return c:IsSummonType(SUMMON_TYPE_RITUAL)
 end
 function s.sp2tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
