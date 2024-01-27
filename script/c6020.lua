@@ -58,7 +58,7 @@ function s.bmop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local g1=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp,zone)
 			Duel.BreakEffect()
-			Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP)
+			Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP,zone)
 		end
     end
 end
