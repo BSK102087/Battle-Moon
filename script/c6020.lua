@@ -57,22 +57,8 @@ function s.bmop(e,tp,eg,ep,ev,re,r,rp)
 		if #g1>0 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then 
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local g1=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp,zone)
-			local sc=g1:GetFirst()
-			if not sc then return end
 			Duel.BreakEffect()
-			if Duel.SpecialSummonStep(sc,0,tp,tp,false,false,POS_FACEUP,zone) then
-				local e3=Effect.CreateEffect(c)
-				e3:SetType(EFFECT_TYPE_SINGLE)
-				e3:SetCode(EFFECT_DISABLE)
-				e3:SetReset(RESET_EVENT+RESETS_STANDARD)
-				sc:RegisterEffect(e3)
-				local e4=Effect.CreateEffect(c)
-				e4:SetType(EFFECT_TYPE_SINGLE)
-				e4:SetCode(EFFECT_DISABLE_EFFECT)
-				e4:SetReset(RESET_EVENT+RESETS_STANDARD)
-				sc:RegisterEffect(e4)
-			end
-			Duel.SpecialSummonComplete()
+			Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP)
 		end
     end
 end
