@@ -55,7 +55,7 @@ function s.btg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,e:GetHandler(),1,0,0)
 end
 function s.stfilter(c)
-	return c:IsSpelltrap() and c:IsAbleToHand()
+	return c:IsSpellTrap() and c:IsAbleToHand()
 end
 function s.bop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
