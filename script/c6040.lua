@@ -76,7 +76,7 @@ function s.bop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local sg=mg:Select(tp,1,1,nil)
 		Duel.BreakEffect()
-		Duel.SendtoHand(sg,nil,REASON_EFFECT)
+		Duel.SendtoHand(sg,tp,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,sg)	
 	end
 end
