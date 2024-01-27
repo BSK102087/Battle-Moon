@@ -35,13 +35,6 @@ function s.initial_effect(c)
 	e4:SetTarget(s.shtg)
 	e4:SetOperation(s.shop)
 	c:RegisterEffect(e4)
-	--Reveal Hand
-	local e5=Effect.CreateEffect(c)
-	e5:SetType(EFFECT_TYPE_FIELD)
-	e5:SetCode(EFFECT_PUBLIC)
-	e5:SetRange(LOCATION_MZONE)
-	e5:SetTargetRange(0,LOCATION_HAND)
-	c:RegisterEffect(e5)
 end
 function s.matfilter(c,scard,sumtype,tp)
 	return c:IsType(TYPE_NORMAL,scard,sumtype,tp)
