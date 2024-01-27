@@ -1,4 +1,4 @@
---Half Moon Tyrant, Acid Rain Anaconda
+--Half Moon Tyrant, Acid Rain Basilisk
 local s,id=GetID()
 function s.initial_effect(c)
 	Pendulum.AddProcedure(c)
