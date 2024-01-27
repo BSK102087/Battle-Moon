@@ -54,6 +54,9 @@ function s.btg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToRemove() end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,e:GetHandler(),1,0,0)
 end
+function s.stfilter(c)
+	return c:IsCode(6030,6031) and c:IsAbleToHand()
+end
 function s.bop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsLocation(LOCATION_MZONE) and Duel.Remove(c,POS_FACEDOWN,REASON_EFFECT+REASON_TEMPORARY)~=0 then
@@ -68,9 +71,13 @@ function s.bop(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetOperation(s.retop)
 		Duel.RegisterEffect(e3,tp)
 	end
-	local g=Duel.GetMatchingGroup(Card.IsFacedown,tp,0,LOCATION_ONFIELD,nil)
-	if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
-		Duel.ConfirmCards(tp,g)
+	local mg=Duel.GetMatchingGroup(s.stfilter,tp,0,LOCATION_GRAVE+LOCATION_REMOVED,nil)
+	if #mg>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+		local sg=mg:Select(tp,1,1,nil)
+		Duel.BreakEffect()
+		Duel.SendtoHand(sg,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,sg)	
 	end
 end
 function s.discon(e,c)
