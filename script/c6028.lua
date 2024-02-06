@@ -150,6 +150,7 @@ function s.bdrop(e,tp,eg,ep,ev,re,r,rp)
 		e14:SetTarget(s.rmlimit)
 		tc:RegisterEffect(e14)
 			if Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+			Duel.BreakEffect()
 			local e15=Effect.CreateEffect(c)
 			e15:SetType(EFFECT_TYPE_SINGLE)
 			e15:SetCode(EFFECT_SET_ATTACK_FINAL)
