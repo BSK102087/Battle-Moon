@@ -80,6 +80,7 @@ function s.initial_effect(c)
 	e13:SetValue(s.valcheck)
 	c:RegisterEffect(e13)	
 end
+s.listed_names={6030}
 function s.filter(c)
 	return c:IsCode(6030,6031) and c:IsAbleToHand()
 end
