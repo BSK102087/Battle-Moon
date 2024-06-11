@@ -13,9 +13,9 @@ function s.initial_effect(c)
 	e2:SetOperation(s.operation)
 	c:RegisterEffect(e2)
 end
-s.listed_names={6017,6018}
+s.listed_names={6017}
 function s.ritualfil(c)
-	return c:IsCode(6017,6018) and c:IsRitualMonster()
+	return c:IsSetCard(0x1f4) or c:IsCode(6017) and c:IsRitualMonster()
 end
 function s.mfilter(c)
 	return not Duel.IsPlayerAffectedByEffect(c:GetControler(),69832741) and c:GetLevel()>0 and c:IsSetCard(0x1f4)
