@@ -1,4 +1,4 @@
---Symbols of Nature and Chaos
+--Beast World Terminal
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
