@@ -11,16 +11,22 @@ function s.initial_effect(c)
 	e1:SetCountLimit(1,id)
 	e1:SetCondition(s.spcon)
 	c:RegisterEffect(e1)
-	--Special Summon from Pendulum Zone
+	--Hand Synchro
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,1))
-	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode(EVENT_SUMMON_SUCCESS)
-	e2:SetTarget(s.pztg)
-	e2:SetOperation(s.pzop)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e2:SetCode(EFFECT_HAND_SYNCHRO)
+	e2:SetCondition(s.lvcon)
+	e2:SetLabel(id)
+	e2:SetValue(s.synval)
 	c:RegisterEffect(e2)
+	local e3=Effect.CreateEffect(c)
+	e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_SYNCHRO_MAT_RESTRICTION)
+	e3:SetCondition(s.lvcon)
+	e3:SetValue(s.synfilter)
+	c:RegisterEffect(e3)
 end
 function s.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0x1f4)
@@ -30,51 +36,40 @@ function s.spcon(e,c)
 	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(s.filter,c:GetControler(),LOCATION_MZONE,0,1,nil)
 end
-function s.pzfilter(c,e,tp)
-	return c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+function s.lvfilter(c)
+	return c:IsSetCard(0x1f4)
 end
-function s.pztg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_PZONE) and chkc:IsControler(tp) and s.pzfilter(chkc,e,tp) end
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingTarget(s.pzfilter,tp,LOCATION_PZONE,0,1,nil,e,tp) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectTarget(tp,s.pzfilter,tp,LOCATION_PZONE,0,1,1,nil,e,tp)
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
+function s.lvcon(e)
+	return Duel.IsExistingMatchingCard(s.lvfilter,e:GetHandlerPlayer(),LOCATION_PZONE,0,1,nil)
 end
-function s.pzop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	local c=e:GetHandler()
-	local tc=Duel.GetFirstTarget()
-	if tc and tc:IsRelateToEffect(e) then
-		Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)
-		--Effects Negated
-		local e1=Effect.CreateEffect(c)
+function s.synfilter(e,c)
+	return c:IsControler(e:GetHandlerPlayer()) and (c:IsLocation(LOCATION_HAND) or (c:IsFaceup() and c:IsLocation(LOCATION_MZONE)))
+end
+function s.synval(e,c,sc)
+	if c:IsLocation(LOCATION_HAND) then
+		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_DISABLE)
-		e1:SetReset(RESET_EVENT+0x1fe0000)
-		tc:RegisterEffect(e1)
-		local e2=Effect.CreateEffect(c)
-		e2:SetType(EFFECT_TYPE_SINGLE)
-		e2:SetCode(EFFECT_DISABLE_EFFECT)
-		e2:SetReset(RESET_EVENT+0x1fe0000)
-		tc:RegisterEffect(e2)
-		--Cannot Attack
-		local e3=Effect.CreateEffect(c)
-		e3:SetDescription(3206)
-		e3:SetType(EFFECT_TYPE_SINGLE)
-		e3:SetCode(EFFECT_CANNOT_ATTACK)
-		e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_CLIENT_HINT)
-		e3:SetReset(RESET_EVENT+0x1fe0000)
-		tc:RegisterEffect(e3)
-		--Banish when leaves field 
-		local e4=Effect.CreateEffect(c)
-		e4:SetDescription(3300)
-		e4:SetType(EFFECT_TYPE_SINGLE)
-		e4:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
-		e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CLIENT_HINT)
-		e4:SetReset(RESET_EVENT+0x1fe0000)
-		e4:SetValue(LOCATION_REMOVED)
-		tc:RegisterEffect(e4)
-		Duel.SpecialSummonComplete()
+		e1:SetCode(EFFECT_HAND_SYNCHRO+EFFECT_SYNCHRO_CHECK)
+		e1:SetLabel(id)
+		e1:SetTarget(s.synchktg)
+		c:RegisterEffect(e1)
+		return true
+	else return false end
+end
+function s.chk2(c)
+	if not c:IsHasEffect(EFFECT_HAND_SYNCHRO) or c:IsHasEffect(EFFECT_HAND_SYNCHRO+EFFECT_SYNCHRO_CHECK) then return false end
+	local te={c:GetCardEffect(EFFECT_HAND_SYNCHRO)}
+	for i=1,#te do
+		local e=te[i]
+		if e:GetLabel()==id then return true end
+	end
+	return false
+end
+function s.synchktg(e,c,sg,tg,ntg,tsg,ntsg)
+	if c then
+		local res=tg:IsExists(s.chk2,1,c) or ntg:IsExists(s.chk2,1,c) or sg:IsExists(s.chk2,1,c)
+		return res,Group.CreateGroup(),Group.CreateGroup()
+	else
+		return true
 	end
 end
