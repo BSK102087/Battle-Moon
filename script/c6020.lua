@@ -7,7 +7,7 @@ function s.initial_effect(c)
 	--Add to hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
-    e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
+    e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH+CATEGORY_COIN)
     e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
@@ -46,6 +46,9 @@ function s.bmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function s.bmop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_COIN)
+	local coin=Duel.SelectOption(tp,60,61)
+	local res=Duel.TossCoin(tp,1)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
     local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.bmfilter),tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil)
     if #g>0 then
@@ -54,7 +57,7 @@ function s.bmop(e,tp,eg,ep,ev,re,r,rp)
 		if Duel.GetFieldGroupCount(tp,LOCATION_MMZONE,0)>0 then return end
 		local zone=e:GetHandler():GetLinkedZone(tp)
 		local g1=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_HAND,0,nil,e,tp)
-		if #g1>0 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then 
+		if #g1>0 and coin~=res and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then 
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 			local g1=Duel.SelectMatchingCard(tp,s.spfilter,tp,LOCATION_HAND,0,1,1,nil,e,tp,zone)
 			Duel.BreakEffect()
