@@ -54,8 +54,8 @@ function s.bmop(e,tp,eg,ep,ev,re,r,rp)
     if #g>0 then
         Duel.SendtoHand(g,nil,REASON_EFFECT)
         Duel.ConfirmCards(1-tp,g)
-		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 		local zone=e:GetHandler():GetLinkedZone(tp)
+		if zone==0 then return end
 		local g1=Duel.GetMatchingGroup(s.spfilter,tp,LOCATION_HAND,0,nil,e,tp)
 		if #g1>0 and coin~=res and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then 
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
