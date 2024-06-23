@@ -89,6 +89,7 @@ end
 function s.equipop(c,e,tp,tc)
 	if not c:EquipByEffectAndLimitRegister(e,tp,tc,id,true) then return end
 	local lv=tc:GetLevel()
+	local att=tc:GetAttribute()
 	local atk=tc:GetTextAttack()
 	local def=tc:GetTextDefense()
 	if atk<0 then atk=0 end
@@ -102,24 +103,31 @@ function s.equipop(c,e,tp,tc)
 		e4:SetValue(lv)
 		e4:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(e4,true)
-	end
-	if atk>0 then
 		local e5=Effect.CreateEffect(c)
 		e5:SetType(EFFECT_TYPE_EQUIP)
+		e5:SetCode(EFFECT_CHANGE_ATTRIBUTE)
 		e5:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE)
-		e5:SetCode(EFFECT_SET_BASE_ATTACK)
+		e5:SetValue(att)
 		e5:SetReset(RESET_EVENT+RESETS_STANDARD)
-		e5:SetValue(atk)
-		tc:RegisterEffect(e5)
+		tc:RegisterEffect(e5,true)
 	end
-	if def>0 then
+	if atk>0 then
 		local e6=Effect.CreateEffect(c)
 		e6:SetType(EFFECT_TYPE_EQUIP)
 		e6:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE)
-		e6:SetCode(EFFECT_SET_BASE_DEFENSE)
+		e6:SetCode(EFFECT_SET_BASE_ATTACK)
 		e6:SetReset(RESET_EVENT+RESETS_STANDARD)
-		e6:SetValue(def)
+		e6:SetValue(atk)
 		tc:RegisterEffect(e6)
+	end
+	if def>0 then
+		local e7=Effect.CreateEffect(c)
+		e7:SetType(EFFECT_TYPE_EQUIP)
+		e7:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_OWNER_RELATE)
+		e7:SetCode(EFFECT_SET_BASE_DEFENSE)
+		e7:SetReset(RESET_EVENT+RESETS_STANDARD)
+		e7:SetValue(def)
+		tc:RegisterEffect(e7)
 	end
 end
 function s.eqop(e,tp,eg,ep,ev,re,r,rp)
