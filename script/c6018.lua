@@ -48,7 +48,6 @@ function s.initial_effect(c)
 	e7:SetOperation(s.sp2op)
 	c:RegisterEffect(e7)	
 end
-s.listed_names={6030}
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetPossibleOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
