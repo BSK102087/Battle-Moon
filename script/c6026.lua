@@ -34,7 +34,6 @@ function s.initial_effect(c)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetTargetRange(0,LOCATION_MZONE)
 	e4:SetTarget(s.disctarget)
-	e4:SetTarget(aux.TargetBoolFunction(Card.IsTrap))
 	c:RegisterEffect(e4)
 	aux.DoubleSnareValidity(c,LOCATION_MZONE)
 	--Attack All
@@ -86,7 +85,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.disctarget(e,c)
-	return e:GetHandler():GetColumnGroup():IsContains(c)
+	return e:GetHandler():GetColumnGroup():IsContains(c) and c:IsTrap()
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tl=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
