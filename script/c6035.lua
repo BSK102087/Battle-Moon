@@ -18,17 +18,17 @@ function s.initial_effect(c)
 	e3:SetCode(EFFECT_TRAP_ACT_IN_HAND)
 	e3:SetCondition(s.handcon)
 	c:RegisterEffect(e3)
-	--Coin Toss
+	--Destroy
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,0))
 	e4:SetCategory(CATEGORY_COIN)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetRange(LOCATION_GRAVE)
 	e4:SetCode(EVENT_FREE_CHAIN)
-	e4:SetCountLimit(1,{id,1})
+	e4:SetCountLimit(1,id)
 	e4:SetCost(aux.bfgcost)
-	e4:SetTarget(s.cointg)
-	e4:SetOperation(s.coinop)
+	e4:SetTarget(s.destg)
+	e4:SetOperation(s.desop)
 	c:RegisterEffect(e4)
 end
 function s.handcon(e,c)
@@ -124,55 +124,45 @@ end
 function s.retop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ReturnToField(e:GetLabelObject())
 end
-function s.cointg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_COIN,nil,0,tp,1)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_HAND,0,1,nil,e,tp) end
 end
-function s.coinop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_COIN)
-	local coin=Duel.SelectOption(tp,60,61)
-	local res=Duel.TossCoin(tp,1)
-	if coin~=res then
-		local e5=Effect.CreateEffect(e:GetHandler())
-		e5:SetDescription(aux.Stringid(id,3))
-		e5:SetType(EFFECT_TYPE_FIELD)
-		e5:SetCode(EFFECT_REFLECT_BATTLE_DAMAGE)
-		e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
-		e5:SetTargetRange(1,0)
-		e5:SetValue(1)
-		e5:SetReset(RESET_PHASE+PHASE_END)
-		Duel.RegisterEffect(e5,tp)
-		local e6=Effect.CreateEffect(e:GetHandler())
-		e6:SetType(EFFECT_TYPE_FIELD)
-		e6:SetCode(EFFECT_REFLECT_DAMAGE)
-		e6:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-		e6:SetTargetRange(1,0)
-		e6:SetValue(1)
-		e6:SetReset(RESET_PHASE+PHASE_END)
-		Duel.RegisterEffect(e6,tp)
-	else
-		local e7=Effect.CreateEffect(e:GetHandler())
-		e7:SetDescription(aux.Stringid(id,4))
-		e7:SetType(EFFECT_TYPE_FIELD)
-		e7:SetCode(EFFECT_REVERSE_DAMAGE)
-		e7:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
-		e7:SetTargetRange(1,0)
-		e7:SetValue(s.refcon)
-		e7:SetReset(RESET_PHASE+PHASE_END)
-		Duel.RegisterEffect(e7,tp)
-		local e8=Effect.CreateEffect(e:GetHandler())
-		e8:SetType(EFFECT_TYPE_FIELD)
-		e8:SetCode(EFFECT_REVERSE_DAMAGE)
-		e8:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-		e8:SetTargetRange(1,0)
-		e8:SetValue(s.rev)
-		e8:SetReset(RESET_PHASE+PHASE_END)
-		Duel.RegisterEffect(e8,tp)
+function s.desfilterM(c)
+	return c:IsFaceup() and c:IsType(TYPE_MONSTER)
+end
+function s.desfilterS(c)
+	return c:IsFaceup() and c:IsType(TYPE_SPELL)
+end
+function s.desfilterT(c)
+	return c:IsFaceup() and c:IsType(TYPE_TRAP)
+end
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
+	local sg=g:RandomSelect(1-tp,1)
+	local tc=sg:GetFirst()
+	if tc then
+		Duel.ConfirmCards(1-tp,tc)
+		if tc:IsMonster() and Duel.IsExistingMatchingCard(s.desfilterM,tp,0,LOCATION_MZONE,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+			local dg=Duel.SelectMatchingCard(tp,s.desfilterM,tp,0,LOCATION_MZONE,1,1,nil)
+			if #dg>0 then
+				Duel.Destroy(dg,REASON_EFFECT)
+			end
+		elseif tc:IsSpell() and Duel.IsExistingMatchingCard(s.desfilterS,tp,0,LOCATION_SZONE,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,4)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+			local dg=Duel.SelectMatchingCard(tp,s.desfilterS,tp,0,LOCATION_SZONE,1,1,nil)
+			if #dg>0 then
+				Duel.Destroy(dg,REASON_EFFECT)
+			end
+		elseif tc:IsType(TYPE_TRAP) and Duel.IsExistingMatchingCard(s.desfilterT,tp,0,LOCATION_SZONE,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,5)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+			local dg=Duel.SelectMatchingCard(tp,s.desfilterT,tp,0,LOCATION_SZONE,1,1,nil)
+			if #dg>0 then
+				Duel.Destroy(dg,REASON_EFFECT)
+			end
+		end
 	end
-end
-function s.refcon(e,re,r,rp,rc)
-	return (r&REASON_EFFECT)~=0
-end
-function s.rev(e,re,r,rp,rc)
-	return r&REASON_BATTLE~=0 and Duel.GetAttacker()
 end
