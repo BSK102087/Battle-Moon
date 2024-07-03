@@ -142,6 +142,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=sg:GetFirst()
 	if tc then
 		Duel.ConfirmCards(1-tp,tc)
+		Duel.ShuffleHand(tp)
 		if tc:IsMonster() and Duel.IsExistingMatchingCard(s.desfilterM,tp,0,LOCATION_MZONE,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
