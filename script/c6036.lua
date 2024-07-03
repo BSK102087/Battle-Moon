@@ -18,16 +18,16 @@ function s.initial_effect(c)
 	e3:SetCode(EFFECT_TRAP_ACT_IN_HAND)
 	e3:SetCondition(s.handcon)
 	c:RegisterEffect(e3)
-	--Switch Control
+	--Negate
 	local e4=Effect.CreateEffect(c)
-	e4:SetCategory(CATEGORY_CONTROL)
+	e4:SetDescription(aux.Stringid(id,0))
 	e4:SetType(EFFECT_TYPE_QUICK_O)
-	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetRange(LOCATION_GRAVE)
-	e4:SetCountLimit(1,{id,1})
+	e4:SetCode(EVENT_FREE_CHAIN)
+	e4:SetCountLimit(1,id)
 	e4:SetCost(aux.bfgcost)
-	e4:SetTarget(s.swtg)
-	e4:SetOperation(s.swop)
+	e4:SetTarget(s.destg)
+	e4:SetOperation(s.desop)
 	c:RegisterEffect(e4)
 end
 function s.handcon(e,c)
@@ -123,25 +123,92 @@ end
 function s.retop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ReturnToField(e:GetLabelObject())
 end
-function s.swfilter(c,e,tp)
-	return c:IsAbleToChangeControler() and (c:GetSequence()<5 or Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0)
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,LOCATION_HAND,0,1,nil,e,tp) end
 end
-function s.swtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.swfilter,tp,LOCATION_MZONE,0,1,nil)
-		and Duel.IsExistingMatchingCard(s.swfilter,tp,0,LOCATION_MZONE,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_CONTROL,nil,0,0,0)
+function s.desfilterM(c)
+	return c:IsFaceup() and c:IsType(TYPE_MONSTER)
 end
-function s.swop(e,tp,eg,ep,ev,re,r,rp)
+function s.desfilterS(c)
+	return c:IsFaceup() and c:IsType(TYPE_SPELL)
+end
+function s.desfilterT(c)
+	return c:IsFaceup() and c:IsType(TYPE_TRAP)
+end
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if not Duel.IsExistingMatchingCard(s.swfilter,tp,LOCATION_MZONE,0,1,nil)
-		or not Duel.IsExistingMatchingCard(s.swfilter,tp,0,LOCATION_MZONE,1,nil) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
-	local g1=Duel.SelectMatchingCard(tp,s.swfilter,tp,LOCATION_MZONE,0,1,1,nil)
-	Duel.HintSelection(g1)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
-	local g2=Duel.SelectMatchingCard(tp,s.swfilter,tp,0,LOCATION_MZONE,1,1,nil)
-	Duel.HintSelection(g2)
-	local c1=g1:GetFirst()
-	local c2=g2:GetFirst()
-		Duel.SwapControl(c1,c2,0,0) 
+	local g=Duel.GetFieldGroup(tp,LOCATION_HAND,0)
+	local sg=g:RandomSelect(1-tp,1)
+	local tc=sg:GetFirst()
+	if tc then
+		Duel.ConfirmCards(1-tp,tc)
+		if tc:IsMonster() and Duel.IsExistingMatchingCard(s.desfilterM,tp,0,LOCATION_MZONE,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,3)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_NEGATE)
+			local dg=Duel.SelectMatchingCard(tp,s.desfilterM,tp,0,LOCATION_MZONE,1,1,nil)
+			if #dg>0 then
+				local tc1=dg:GetFirst()
+				local e6=Effect.CreateEffect(c)
+				e6:SetType(EFFECT_TYPE_SINGLE)
+				e6:SetCode(EFFECT_DISABLE)
+				e6:SetReset(RESET_EVENT+RESETS_STANDARD)
+				tc1:RegisterEffect(e6)
+				local e7=Effect.CreateEffect(c)
+				e7:SetType(EFFECT_TYPE_SINGLE)
+				e7:SetCode(EFFECT_DISABLE_EFFECT)
+				e7:SetReset(RESET_EVENT+RESETS_STANDARD)
+				tc1:RegisterEffect(e7)
+				if tc:IsType(TYPE_TRAPMONSTER) then
+					local e8=Effect.CreateEffect(c)
+					e8:SetType(EFFECT_TYPE_SINGLE)
+					e8:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+					e8:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+					e8:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+					tc1:RegisterEffect(e8)
+				end
+			end
+		elseif tc:IsSpell() and Duel.IsExistingMatchingCard(s.desfilterS,tp,0,LOCATION_SZONE,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,4)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+			local dg=Duel.SelectMatchingCard(tp,s.desfilterS,tp,0,LOCATION_SZONE,1,1,nil)
+			if #dg>0 then
+				local tc1=dg:GetFirst()
+				local e7=Effect.CreateEffect(c)
+				e7:SetType(EFFECT_TYPE_SINGLE)
+				e7:SetCode(EFFECT_DISABLE)
+				e7:SetReset(RESET_EVENT+RESETS_STANDARD)
+				tc1:RegisterEffect(e7)
+				local e8=Effect.CreateEffect(c)
+				e8:SetType(EFFECT_TYPE_SINGLE)
+				e8:SetCode(EFFECT_DISABLE_EFFECT)
+				e8:SetReset(RESET_EVENT+RESETS_STANDARD)
+				tc1:RegisterEffect(e8)
+			end
+		elseif tc:IsType(TYPE_TRAP) and Duel.IsExistingMatchingCard(s.desfilterT,tp,0,LOCATION_SZONE,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,5)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+			local dg=Duel.SelectMatchingCard(tp,s.desfilterT,tp,0,LOCATION_SZONE,1,1,nil)
+			if #dg>0 then
+				local tc1=dg:GetFirst()
+				local e9=Effect.CreateEffect(c)
+				e9:SetType(EFFECT_TYPE_SINGLE)
+				e9:SetCode(EFFECT_DISABLE)
+				e9:SetReset(RESET_EVENT+RESETS_STANDARD)
+				tc1:RegisterEffect(e9)
+				local e10=Effect.CreateEffect(c)
+				e10:SetType(EFFECT_TYPE_SINGLE)
+				e10:SetCode(EFFECT_DISABLE_EFFECT)
+				e10:SetReset(RESET_EVENT+RESETS_STANDARD)
+				tc1:RegisterEffect(e10)
+				if tc:IsType(TYPE_TRAPMONSTER) then
+					local e11=Effect.CreateEffect(c)
+					e11:SetType(EFFECT_TYPE_SINGLE)
+					e11:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+					e11:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+					e11:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+					tc1:RegisterEffect(e11)
+				end
+			end
+		end
+	end
 end
