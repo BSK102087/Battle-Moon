@@ -85,7 +85,7 @@ function s.filter(c)
 	return c:IsCode(6030,6031) and c:IsAbleToHand()
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToDeck() end
+	if chk==0 then return e:GetHandler():IsAbleToDeckAsCost() end
 	Duel.SendtoDeck(e:GetHandler(),nil,2,REASON_COST)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
