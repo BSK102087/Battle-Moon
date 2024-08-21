@@ -85,7 +85,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.disctarget(e,c)
-	return e:GetHandler():GetColumnGroup():IsContains(c) and c:IsTrap()
+	return e:GetHandler():GetColumnGroup():IsContains(c)
 end
 function s.disop(e,tp,eg,ep,ev,re,r,rp)
 	local tl=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
