@@ -1,6 +1,6 @@
 # BSK
 {
-"url": "https://github.com/BSK102087/BSK",
+"url": "https://github.com/BSK102087/Battle-Moon",
 "repo_name": "BSK Customs",
 "repo_path": "./repositories/battlemoon",
 "has_core": true,
