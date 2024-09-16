@@ -50,9 +50,14 @@ end
 function s.stfilter(c)
 	return (c:IsFaceup() and c:IsSpellTrap()) and c:IsAbleToHand()
 end
+function s.btg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetOperationInfo(0,CATEGORY_REMOVE,e:GetHandler(),1,0,0)
+end
 function s.bop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsLocation(LOCATION_MZONE) and Duel.Remove(c,POS_FACEDOWN,REASON_EFFECT+REASON_TEMPORARY)~=0 then
+	if c:IsRelateToEffect(e) then
+		if Duel.Remove(c,0,REASON_EFFECT+REASON_TEMPORARY)==0 then return end
 		local e3=Effect.CreateEffect(c)
 		e3:SetDescription(aux.Stringid(id,1))
 		e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
