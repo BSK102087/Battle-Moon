@@ -41,6 +41,7 @@ function s.initial_effect(c)
 	e4:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetCountLimit(1)
+	e5:SetOperation(s.btg)
 	e5:SetOperation(s.bop)
 	c:RegisterEffect(e5)
 end
@@ -95,10 +96,14 @@ function s.spoperation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
+function s.btg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetOperationInfo(0,CATEGORY_REMOVE,e:GetHandler(),1,0,0)
+end
 function s.bop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if chk==0 then return c:IsAbleToRemove() end
-	if c:IsLocation(LOCATION_MZONE) and Duel.Remove(c,POS_FACEDOWN,REASON_EFFECT+REASON_TEMPORARY)~=0 then
+	if c:IsRelateToEffect(e) then
+		if Duel.Remove(c,0,REASON_EFFECT+REASON_TEMPORARY)==0 then return end
 		local e6=Effect.CreateEffect(c)
 		e6:SetDescription(aux.Stringid(id,2))
 		e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
