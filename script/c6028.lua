@@ -68,6 +68,11 @@ function s.initial_effect(c)
 	e10:SetTarget(s.bdrtg)
 	e10:SetOperation(s.bdrop)
 	c:RegisterEffect(e10)
+	--Pierce
+	local e17=Effect.CreateEffect(c)
+	e17:SetType(EFFECT_TYPE_SINGLE)
+	e17:SetCode(EFFECT_PIERCE)
+	c:RegisterEffect(e17)
 end
 function s.rmlimit(e,c,p)
 	return e:GetHandler()==c
