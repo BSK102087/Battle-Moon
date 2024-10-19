@@ -53,7 +53,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		while RACE_ALL&crac~=0 do
 			local catt=1
 			while ATTRIBUTE_ALL&catt~=0 do
-				if Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x11,0,2200,4,crac,catt) then
+				if Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x11,0,0,4,RACE_BEAST,ATTRIBUTE_DARK) then
 					rac=rac+crac
 					break
 				end
@@ -69,7 +69,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local att=0
 	local catt=1
 	while ATTRIBUTE_ALL&catt~=0 do
-		if Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x11,0,2200,4,crac,catt) then
+		if Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x11,0,0,4,RACE_BEAST,ATTRIBUTE_DARK) then
 			att=att+catt
 		end
 		catt=catt<<1
@@ -86,7 +86,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	local rac=e:GetLabel()
 	local att=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
-		or not Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x21,0,0,4,rac,att) then return end
+		or not Duel.IsPlayerCanSpecialSummonMonster(tp,id,0,0x11,0,0,4,RACE_BEAST,ATTRIBUTE_DARK) then return end
 		c:AddMonsterAttribute(TYPE_NORMAL,att,rac,0,0,0)
 		Duel.SpecialSummonStep(c,0,tp,tp,true,false,POS_FACEUP)
 		c:AddMonsterAttributeComplete()
