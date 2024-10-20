@@ -118,7 +118,8 @@ function s.lpop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
 	local tc=Duel.SelectMatchingCard(tp,s.lpfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil):GetFirst()
 	local rec=tc:GetAttack() 
-	if rec>0 and Duel.Recover(tp,rec,REASON_EFFECT) and tc:IsCanTurnSet() and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
+	if rec>0 and Duel.Recover(tp,rec,REASON_EFFECT) and tc:IsCanTurnSet() and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then 
+		Duel.BreakEffect()
 		Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
 	end				
 end
