@@ -76,7 +76,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.stop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,4))
 	local tc=Duel.SelectMatchingCard(tp,s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,1,nil):GetFirst()
 	if not tc then return end
 	aux.ToHandOrElse(tc,tp,
@@ -84,6 +84,6 @@ function s.stop(e,tp,eg,ep,ev,re,r,rp)
 		function(c)
 			Duel.SSet(tp,tc)
 		end,
-		aux.Stringid(id,4)
+		aux.Stringid(id,5)
 	)
 end
