@@ -46,8 +46,8 @@ function s.stfilter(c,e,sp)
 	return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsCode(6030,6031,6032,6033,6034,6035,6036,6037,6038) and (c:IsAbleToHand() or c:IsSSetable())
 end
 function s.spsttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local b1=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil,e,tp) and not Duel.HasFlagEffect(tp,id)
-	local b2=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil) and not Duel.HasFlagEffect(tp,id+1)
+	local b1=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil,e,tp)
+	local b2=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil)
 	if chk==0 then return b1 or b2 end
 	local op=0
 	if b1 and b2 then
@@ -58,11 +58,9 @@ function s.spsttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		op=Duel.SelectOption(tp,aux.Stringid(id,3))+1
 	end
 	if op==0 then
-		Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 		e:SetCategory(CATEGORY_SPECIAL_SUMMON)
 		e:SetOperation(s.spop)
 	else
-		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 		e:SetOperation(s.stop)
 	end
 end
