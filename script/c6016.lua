@@ -65,7 +65,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.chainop(e,tp,eg,ep,ev,re,r,rp)
-	if re:GetHandler():IsType(TYPE_MONSTER+TYPE_SPELL+TYPE_TRAP) then
+	if rp==tp and re:GetHandler():IsType(TYPE_MONSTER+TYPE_SPELL+TYPE_TRAP) then
 		Duel.SetChainLimit(s.chainlm)
 	end
 end
