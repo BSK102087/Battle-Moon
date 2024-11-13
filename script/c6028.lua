@@ -86,7 +86,7 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.Remove(g,POS_FACEDOWN,REASON_EFFECT+REASON_TEMPORARY)~=0 then
 		local tc=g:GetFirst()
 		local atk=math.max(tc:GetTextAttack(),tc:GetTextDefense())
-		if Duel.IsBattlePhase() then
+		if Duel.IsBattlePhase() and tc:IsFaceup() then
 			Duel.BreakEffect()
 			if Duel.Recover(tp,atk,REASON_EFFECT) then
 				Duel.Damage(1-tp,atk,REASON_EFFECT)
