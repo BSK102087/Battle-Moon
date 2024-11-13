@@ -85,8 +85,8 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToRemove,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,e:GetHandler())
 	if Duel.Remove(g,POS_FACEDOWN,REASON_EFFECT+REASON_TEMPORARY)~=0 then
 		local tc=g:GetFirst()
+		if tc:IsFaceup() and Duel.IsBattlePhase() then
 		local atk=math.max(tc:GetTextAttack(),tc:GetTextDefense())
-		if Duel.IsBattlePhase() and tc:IsFaceup() then
 			Duel.BreakEffect()
 			if Duel.Recover(tp,atk,REASON_EFFECT) then
 				Duel.Damage(1-tp,atk,REASON_EFFECT)
