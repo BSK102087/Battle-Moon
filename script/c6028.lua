@@ -75,18 +75,21 @@ end
 function s.rmlimit(e,c,p)
 	return e:GetHandler()==c
 end
+function s.filter(c)
+	return c:IsFaceup() and c:IsAbleToRemove()
+end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler()) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler()) end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
 function s.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToRemove,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,e:GetHandler())
+	local g=Duel.SelectMatchingCard(tp,s.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,e:GetHandler())
 	if Duel.Remove(g,POS_FACEDOWN,REASON_EFFECT+REASON_TEMPORARY)~=0 then
 		local tc=g:GetFirst()
-		if tc:IsFaceup() and Duel.IsBattlePhase() then
 		local atk=math.max(tc:GetTextAttack(),tc:GetTextDefense())
+		if Duel.IsBattlePhase() then
 			Duel.BreakEffect()
 			if Duel.Recover(tp,atk,REASON_EFFECT) then
 				Duel.Damage(1-tp,atk,REASON_EFFECT)
