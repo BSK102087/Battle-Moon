@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetProperty(EFFECT_FLAG_BOTH_SIDE)
 	e3:SetRange(LOCATION_FZONE)
-	e3:SetCountLimit(2)
+	--e3:SetCountLimit(2)
 	e3:SetTarget(s.celestg)
 	c:RegisterEffect(e3)
 end
