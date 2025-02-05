@@ -41,7 +41,7 @@ function s.initial_effect(c)
 	e4:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetCountLimit(1)
-	e5:SetOperation(s.btg)
+	e5:SetTarget(s.btg)
 	e5:SetOperation(s.bop)
 	c:RegisterEffect(e5)
 end
