@@ -5,19 +5,22 @@ function s.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,id,EFFECT_COUNT_CODE_OATH)
 	e1:SetTarget(s.target)
 	c:RegisterEffect(e1)
 end
 function s.remfilter(c)
-	return c:IsSetCard(0x1f4) and c:IsAbleToRemove()
+	return c:IsSetCard(0x1f4) and (c:IsLocation(LOCATION_HAND) or c:IsFaceup()) and c:IsAbleToRemove()
 end 
 function s.pzfilter(c,e,tp)
 	return c:IsSetCard(0x1f4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local b1=Duel.IsExistingMatchingCard(s.remfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,nil) and Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD,1,nil)
-	local b2=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(s.pzfilter,tp,LOCATION_PZONE,0,1,nil,e,tp)
+	local b1=Duel.IsExistingMatchingCard(s.remfilter,tp,LOCATION_HAND+LOCATION_ONFIELD,0,1,nil) 
+		and Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_ONFIELD,1,nil)
+		and not Duel.HasFlagEffect(tp,id)
+	local b2=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
+		and Duel.IsExistingMatchingCard(s.pzfilter,tp,LOCATION_PZONE,0,1,nil,e,tp)
+		and not Duel.HasFlagEffect(tp,id)
 	if chk==0 then return b1 or b2 end
 	local op=0
 	if b1 and b2 then
@@ -28,10 +31,12 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		op=Duel.SelectOption(tp,aux.Stringid(id,1))+1
 	end
 	if op==0 then
+		Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 		e:SetCategory(CATEGORY_REMOVE)
 		e:SetCategory(CATEGORY_DRAW)
 		e:SetOperation(s.activate)
 	else
+		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 		e:SetCategory(CATEGORY_SPECIAL_SUMMON)
 		e:SetOperation(s.pzactivate)
 	end
