@@ -20,7 +20,7 @@ function s.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		and not Duel.HasFlagEffect(tp,id)
 	local b2=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
 		and Duel.IsExistingMatchingCard(s.pzfilter,tp,LOCATION_PZONE,0,1,nil,e,tp)
-		and not Duel.HasFlagEffect(tp,id)
+		and not Duel.HasFlagEffect(tp,id+1)
 	if chk==0 then return b1 or b2 end
 	local op=0
 	if b1 and b2 then
