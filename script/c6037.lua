@@ -40,6 +40,7 @@ function s.celestg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 		e:SetCategory(CATEGORY_SPECIAL_SUMMON)
 		e:SetOperation(s.clusop1)
+		Duel.SetPossibleOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 	else
 		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 		e:SetCategory(CATEGORY_TODECK)
