@@ -104,27 +104,29 @@ end
 function s.trtg(e,c)
 	return c:IsType(TYPE_PENDULUM) and c:IsSetCard(0x1f4) and c:IsReleasable()
 end
+function s.ctfilter(c)
+	return not c:IsAttribute(0x20)
+end
+function s.ct1filter(c)
+	return c:IsFaceup() and not c:IsAttribute(0x20)
+end
 function s.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	local att=Duel.GetAttacker()
 	return e:GetHandler():IsType(TYPE_EFFECT) and not att:IsControler(tp) and not att:IsAttribute(0x20)
 end	
-function s.ctfilter(c,e,tp)
-	return not c:IsAttribute(0x20)
-end
 function s.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local at=Duel.GetAttacker()
 	local bc=Duel.GetAttackTarget()
-	if chk==0 then return Duel.IsExistingMatchingCard(s.ctfilter,tp,0,LOCATION_MZONE,1,at,e,tp) or 
-		Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,0,1,bc,e,tp) end 
+	if chk==0 then return Duel.IsExistingMatchingCard(s.ctfilter,tp,0,LOCATION_MZONE,1,at) or 
+		Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,0,1,bc) end 
+	Duel.SetTargetCard(at)
 end
 function s.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttacker()
 	local bc=Duel.GetAttackTarget()
-	if not Duel.IsExistingMatchingCard(s.ctfilter,tp,0,LOCATION_MZONE,1,at,e,tp) or 
-		Duel.IsExistingMatchingCard(s.ctfilter,tp,LOCATION_MZONE,0,1,bc,e,tp) then return end
-	local g=Duel.GetMatchingGroup(s.ctfilter,tp,LOCATION_MZONE,LOCATION_MZONE,at)
-	if g:GetCount()>0 then
-		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,3))
+	local g=Duel.GetMatchingGroup(s.ct1filter,tp,LOCATION_MZONE,LOCATION_MZONE,at)
+	if #g>0 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_APPLYTO)
 		local tc=g:Select(tp,1,1,bc):GetFirst()
 		local at=Duel.GetAttacker()
 		if at:CanAttack() and not at:IsImmuneToEffect(e) and not tc:IsImmuneToEffect(e) then
