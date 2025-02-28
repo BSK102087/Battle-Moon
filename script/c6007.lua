@@ -104,5 +104,5 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.aclimit(e,re,tp)
-	return re:GetHandler():IsType(TYPE_PENDULUM) and re:GetHandler():IsSetCard(0x190) and re:GetHandler():IsLocation(LOCATION_PZONE)
+	return re:GetHandler():IsType(TYPE_PENDULUM) and re:GetHandler():IsSetCard(0x3E8) and re:GetHandler():IsLocation(LOCATION_PZONE)
 end
