@@ -4,7 +4,6 @@ function s.initial_effect(c)
 	--Link Summon
 	Link.AddProcedure(c,nil,2,4,s.lcheck)
 	c:EnableReviveLimit()
-	c:AddMustFirstBeFusionSummoned()
 	--Gemini Unlock
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
