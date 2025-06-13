@@ -6,6 +6,7 @@ function s.initial_effect(c)
 	Fusion.AddProcMix(c,true,true,s.mfilter1,s.mfilter2)
 	Fusion.AddContactProc(c,s.contactfil,s.contactop,s.splimit,nil,nil,nil,false)
 	c:EnableReviveLimit()
+	c:AddMustFirstBeFusionSummoned()
 	--Special Summon Limit
 	local e1=Effect.CreateEffect(c)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
