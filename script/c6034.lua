@@ -53,16 +53,16 @@ function s.spsttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if b1 and b2 then
 		op=Duel.SelectOption(tp,aux.Stringid(id,2),aux.Stringid(id,3))
 	elseif b1 then
-		Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 		op=Duel.SelectOption(tp,aux.Stringid(id,2))
 	else
-		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 		op=Duel.SelectOption(tp,aux.Stringid(id,3))+1
 	end
 	if op==0 then
+		Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 		e:SetCategory(CATEGORY_SPECIAL_SUMMON)
 		e:SetOperation(s.spop)
 	else
+		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 		e:SetOperation(s.stop)
 	end
 end
@@ -87,5 +87,6 @@ function s.stop(e,tp,eg,ep,ev,re,r,rp)
 		aux.Stringid(id,5)
 	)
 end
+
 
 
