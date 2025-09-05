@@ -47,14 +47,17 @@ function s.stfilter(c,e,sp)
 end
 function s.spsttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local b1=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil,e,tp)
-	local b2=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil)
+		and not Duel.HasFlagEffect(tp,id)
+	local b2=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil) and not Duel.HasFlagEffect(tp,id+1)
 	if chk==0 then return b1 or b2 end
 	local op=0
 	if b1 and b2 then
 		op=Duel.SelectOption(tp,aux.Stringid(id,2),aux.Stringid(id,3))
 	elseif b1 then
+		Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
 		op=Duel.SelectOption(tp,aux.Stringid(id,2))
 	else
+		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 		op=Duel.SelectOption(tp,aux.Stringid(id,3))+1
 	end
 	if op==0 then
@@ -85,3 +88,4 @@ function s.stop(e,tp,eg,ep,ev,re,r,rp)
 		aux.Stringid(id,5)
 	)
 end
+
