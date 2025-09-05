@@ -15,7 +15,6 @@ function s.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCode(EVENT_LEAVE_FIELD)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCountLimit(1,{id,1})
 	e2:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return eg:IsExists(s.atrfilter,1,nil,tp,rp) end)
 	e2:SetTarget(s.spsttg)
 	c:RegisterEffect(e2)
@@ -88,4 +87,5 @@ function s.stop(e,tp,eg,ep,ev,re,r,rp)
 		aux.Stringid(id,5)
 	)
 end
+
 
