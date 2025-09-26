@@ -69,7 +69,7 @@ function s.bop(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetOperation(s.retop)
 		Duel.RegisterEffect(e3,tp)
 	end
-	local mg=Duel.GetMatchingGroup(s.stfilter,tp,0,LOCATION_GRAVE+LOCATION_REMOVED,nil)
+	local mg=Duel.GetMatchingGroup(aux.NecroValleyFilter(s.stfilter),tp,0,LOCATION_GRAVE+LOCATION_REMOVED,nil)
 	if #mg>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local sg=mg:Select(tp,1,1,nil)
@@ -103,3 +103,4 @@ function s.shop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)
 	end	
 end
+
