@@ -66,7 +66,7 @@ function s.initial_effect(c)
 	e10:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e10:SetCode(EVENT_BATTLE_DESTROYED)
 	e10:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e10:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
+	e10:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
 	e10:SetCondition(s.spcon2)
 	e10:SetTarget(s.sptg)
 	e10:SetOperation(s.spop)
@@ -136,4 +136,5 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 end
+
 
