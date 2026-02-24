@@ -128,7 +128,7 @@ function s.fuscon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(s.fusfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) 
 end
 function s.spgfilter(c,e,tp)
-	return c:IsType(TYPE_GEMINI) and (c:IsFaceup() or c:IsLocation(LOCATION_HAND))
+	return c:IsType(TYPE_GEMINI) and (c:IsFaceup() or c:IsLocation(LOCATION_HAND+LOCATION_GRAVE))
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.spgtg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -151,3 +151,4 @@ function s.spgop(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.SpecialSummonComplete()
 end
+
