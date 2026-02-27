@@ -77,7 +77,7 @@ function s.nop(e,tp,eg,ep,ev,re,r,rp)
 			e8:SetType(EFFECT_TYPE_SINGLE)
 			e8:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 			e8:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-			e8:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+			e8:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(e8)
 		end
 	end
@@ -103,3 +103,4 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 
 end
+
