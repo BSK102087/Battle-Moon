@@ -42,6 +42,7 @@ function s.spfilter(c,e,tp,zone)
 end
 function s.bmtg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(s.bmfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_COIN,nil,0,tp,1)
     Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK+LOCATION_GRAVE)
 end
 function s.bmop(e,tp,eg,ep,ev,re,r,rp)
@@ -87,3 +88,4 @@ function s.penop(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
+
