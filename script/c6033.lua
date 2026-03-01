@@ -17,12 +17,12 @@ function s.initial_effect(c)
 	local e2=e1:Clone()
 	e2:SetCondition(s.thcon1)
 	c:RegisterEffect(e2)
-    	--Attack while in Defense Position
-    	local e3=Effect.CreateEffect(c)	
-    	e3:SetType(EFFECT_TYPE_EQUIP)
-    	e3:SetCode(EFFECT_DEFENSE_ATTACK)
+    --Attack while in Defense Position
+    local e3=Effect.CreateEffect(c)	
+    e3:SetType(EFFECT_TYPE_EQUIP)
+    e3:SetCode(EFFECT_DEFENSE_ATTACK)
 	e3:SetValue(1)
-    	c:RegisterEffect(e3)
+    c:RegisterEffect(e3)
 	--Banish
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
@@ -98,3 +98,4 @@ end
 function s.retop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ReturnToField(e:GetLabelObject())
 end
+
