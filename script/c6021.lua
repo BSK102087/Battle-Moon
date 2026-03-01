@@ -35,7 +35,7 @@ function s.initial_effect(c)
 	--Dice
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
-	e4:SetCategory(CATEGORY_DICE)
+	e4:SetCategory(CATEGORY_DICE+CATEGORY_DRAW+CATEGORY_TODECK)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCountLimit(1,{id,1})	
@@ -86,3 +86,4 @@ function s.dieop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoDeck(g,nil,2,REASON_EFFECT)
 	end
 end
+
