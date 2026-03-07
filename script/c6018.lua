@@ -18,7 +18,7 @@ function s.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
 	e2:SetCode(EFFECT_ADD_ATTRIBUTE)
-	e2:SetValue(0x01+0x02+0x08+0x10+0x20)
+	e2:SetValue(0x01+0x04+0x08+0x10+0x20)
 	c:RegisterEffect(e2)
 	--Supermoon Domain
 	local e4=Effect.CreateEffect(c)
@@ -120,3 +120,4 @@ function s.sp2op(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 end
+
