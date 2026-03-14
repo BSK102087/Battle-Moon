@@ -16,6 +16,7 @@ function s.initial_effect(c)
 	e2:SetCode(EVENT_LEAVE_FIELD)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return eg:IsExists(s.atrfilter,1,nil,tp,rp) end)
+	e2:SetCost(s.opccost)
 	e2:SetTarget(s.spsttg)
 	c:RegisterEffect(e2)
 end
@@ -35,6 +36,10 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		end
 	end
 end
+function s.opccost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetFlagEffect(tp,id)==0 end
+	Duel.RegisterFlagEffect(tp,id,RESET_CHAIN,0,1)
+end
 function s.atrfilter(c,tp,rp)
 	return c:IsSetCard(0x1f4) and c:IsPreviousControler(tp) and c:IsPreviousPosition(POS_FACEUP)
 end
@@ -46,8 +51,8 @@ function s.stfilter(c,e,sp)
 end
 function s.spsttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local b1=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil,e,tp)
-		and not Duel.HasFlagEffect(tp,id)
-	local b2=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil) and not Duel.HasFlagEffect(tp,id+1)
+		and not Duel.HasFlagEffect(tp,id+1)
+	local b2=Duel.IsExistingMatchingCard(s.stfilter,tp,LOCATION_GRAVE+LOCATION_REMOVED,0,1,nil) and not Duel.HasFlagEffect(tp,id+2)
 	if chk==0 then return b1 or b2 end
 	local op=0
 	if b1 and b2 then
@@ -58,11 +63,11 @@ function s.spsttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 		op=Duel.SelectOption(tp,aux.Stringid(id,3))+1
 	end
 	if op==0 then
-		Duel.RegisterFlagEffect(tp,id,RESET_PHASE+PHASE_END,0,1)
+		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
 		e:SetCategory(CATEGORY_SPECIAL_SUMMON)
 		e:SetOperation(s.spop)
 	else
-		Duel.RegisterFlagEffect(tp,id+1,RESET_PHASE+PHASE_END,0,1)
+		Duel.RegisterFlagEffect(tp,id+2,RESET_PHASE+PHASE_END,0,1)
 		e:SetOperation(s.stop)
 	end
 end
