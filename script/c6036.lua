@@ -35,7 +35,7 @@ function s.handcon(e,c)
 	return Duel.IsExistingMatchingCard(s.costfilter,tp,LOCATION_HAND,0,1,nil)
 end
 function s.costfilter(c)
-	return c:IsSetCard(0x1f4) and c:IsType(TYPE_MONSTER) and not c:IsPublic()
+	return (c:IsSetCard(0x1f4) and c:IsType(TYPE_MONSTER)) or c:IsCode(6017) and not c:IsPublic()
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end 
