@@ -1,0 +1,12 @@
+Beast Planet
+Beast Dwarf
+World Engines
+Beast World Terminal
+Beast World Thrusters
+Beast World Cannon
+Beast World Generator
+
+Add a filter to the Banish Temporarily effects
+function s.bfilter(c,tp)
+	return c:IsAbleToRemove(tp,POS_FACEDOWN)
+end
